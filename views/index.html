@@ -2,31 +2,36 @@
 
 <html>
    <head>
-      <title>Timestamp Microservice | freeCodeCamp.org</title>
-      <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png" type="image/x-icon"/>
-      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-      <link href="style.css" rel="stylesheet" type="text/css">
+      <title>Timestamp</title>
+      <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400&display=swap" rel="stylesheet">
+      <link href="../public/style.css" rel="stylesheet" type="text/css">
    </head>
 
    <body>
-    <h1>Timestamp Microservice</h1>
-    <hr />
-    <div class="container">
-      <h3>Example Usage:</h3>
-      <ul>
-        <li><a href="api/2015-12-25">[project url]/api/2015-12-25</a></li>
-        <li><a href="api/1451001600000">[project url]/api/1451001600000</a></li>
-      </ul>
-
-      <h3>Example Output:</h3>
-      <p>
-        <code>{"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"}</code>
-      </p>
-    </div>
-    <div class="footer">
-      <p>
-        By <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a>
-      </p>
-    </div>
+      <div class="container">
+        <h2>Timestamp Microservice</h2>
+        <h3>Enter a date in any format:</h3>
+        <input id='desired-date' type="text" placeholder="Enter a date">
+        <button type="submit" onclick=submitDate()>Submit</button>
+        <p id="result">
+        </p>
+      </div>
+      <div class="footer">
+        <p>
+          by <a id='signature' href="https://azotamiota.github.io">azotamiota</a>
+        </p>
+      </div>
+      <script>
+        const submitDate = () => {
+          document.getElementById('result').innerHTML = '<h3>Loading...</h3>'
+          const enteredDate = document.getElementById('desired-date').value
+          fetch(`https://boilerplate-project-timestamp.norbertmajer.repl.co/api/${enteredDate}`)
+          .then(res => res.json())
+          .then(data => {
+            !data.unix ? document.getElementById('result').innerHTML = data.error :
+            document.getElementById('result').innerHTML = `Unix timestamp of the entered date : ${data.unix}<br><br>UTC timestamp of the entered date: ${data.utc}`
+          })
+        }
+      </script>
   </body>
 </html>
